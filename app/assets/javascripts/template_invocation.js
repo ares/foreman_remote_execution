@@ -20,7 +20,7 @@ function refresh_execution_form() {
 }
 
 function job_invocation_form_binds() {
-  $('input.job_template_selector').on('click', function () {
+  $('select.job_template_selector').on('change', function () {
     parent_fieldset = $(this).closest('fieldset');
     $(parent_fieldset).find('fieldset.job_template_form').hide();
     $('#job_template_' + $(this).val()).show();

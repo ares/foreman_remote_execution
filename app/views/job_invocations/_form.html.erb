@@ -23,27 +23,20 @@
       <%= f.fields_for 'providers' do |p| %>
         <%= p.fields_for provider_type do |pt| %>
           <%= pt.fields_for :job_templates do |jt| %>
-            <% if @composer.needs_provider_type_selection? %>
-              <%= radio_button_f pt, 'job_template_id', :value => '', :text => _('Disable this provider'),
-                                 :class => 'job_template_selector', :checked => @composer.preselect_disabled_for_provider(provider_type) %>
-              <span />
-            <% end %>
-            <% @composer.templates_for_provider(provider_type).each do |job_template| %>
-              <%= radio_button_f pt, 'job_template_id',
-                                 :value => job_template.id,
-                                 :text => job_template.name,
-                                 :class => 'job_template_selector',
-                                 :checked => @composer.job_template_ids.include?(job_template.id) || @composer.only_one_template_available? %>
+            <%= selectable_f pt, 'job_template_id', [JobTemplate.new(:name => _('Disable this provider'))] + @composer.templates_for_provider(provider_type).map { |t| [t.name, t.id] },
+                             { :selected => @composer.preselect_disabled_for_provider(provider_type) ? nil : @composer.templates_for_provider(provider_type).first.try(:id) },
+                             :class => 'job_template_selector' %>
 
+            <% @composer.templates_for_provider(provider_type).each do |job_template| %>
               <fieldset id="job_template_<%= job_template.id %>" class="job_template_form <%= 'hidden' unless @composer.job_template_ids.include?(job_template.id) %>">
                 <%= jt.fields_for job_template.id.to_s do |j| %>
                   <%= j.fields_for :input_values do |iv| %>
                     <% job_template.template_inputs.where(:input_type => 'user').each do |input| %>
                       <%= iv.fields_for input.id.to_s, @composer.template_invocation_input_value_for(input) do |i| %>
                         <%= text_f i, :value, :label => input.name, :help_inline => input.description, :required => input.required %>
-                      <% end %>
                     <% end %>
                   <% end %>
+                <% end %>
                 <% end %>
               </fieldset>
             <% end %>
@@ -52,7 +45,6 @@
       <% end %>
     </fieldset>
   <% end %>
-
 
   <%= submit_or_cancel f %>
 <% end %>
