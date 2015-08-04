@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :job_invocations, :only => [:new, :create] do
+  resources :job_invocations, :only => [:new, :create, :show] do
     collection do
       post 'refresh'
     end
