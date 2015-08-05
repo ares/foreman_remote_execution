@@ -1,3 +1,5 @@
+require 'deface'
+
 module ForemanRemoteExecution
   class Engine < ::Rails::Engine
     engine_name 'foreman_remote_execution'
@@ -5,6 +7,7 @@ module ForemanRemoteExecution
     config.autoload_paths += Dir["#{config.root}/app/controllers/concerns"]
     config.autoload_paths += Dir["#{config.root}/app/helpers/concerns"]
     config.autoload_paths += Dir["#{config.root}/app/models/concerns"]
+    config.autoload_paths += Dir["#{config.root}/app/overrides"]
 
     # Add any db migrations
     initializer 'foreman_remote_execution.load_app_instance_data' do |app|

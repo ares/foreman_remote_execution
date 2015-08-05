@@ -20,4 +20,5 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 3.2.8"
   s.add_development_dependency 'rubocop'
   s.add_development_dependency 'rdoc'
+  s.add_dependency 'deface'
 end
