@@ -78,6 +78,10 @@ class JobInvocation < ActiveRecord::Base
     { :conditions => sanitize_sql_for_conditions(["foreman_tasks_recurring_logics.id IS #{not_operator} NULL"]), :joins => :recurring_logic }
   end
 
+  def notification_recipients_ids
+    [ self.targeting.user_id ]
+  end
+
   def status
     HostStatus::ExecutionStatus::ExecutionTaskStatusMapper.new(task).status
   end

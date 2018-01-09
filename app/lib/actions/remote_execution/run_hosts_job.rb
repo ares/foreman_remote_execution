@@ -66,6 +66,19 @@ module Actions
         super unless event == Dynflow::Action::Skip
       end
 
+      def finalize(*args)
+        job_invocation = JobInvocation.find(input[:job_invocation_id])
+        # TODO based on status
+        blueprint = NotificationBlueprint.unscoped.find_by_name('rex_job_succeeded')
+        Notification.create(
+          :initiator => User.anonymous_admin,
+          :audience => Notification::AUDIENCE_USER,
+          :notification_blueprint => blueprint,
+          :subject => job_invocation,
+          :message => UINotifications::StringParser.new(blueprint.message, {subject: job_invocation})
+        )
+      end
+
       def humanized_input
         input.fetch(:job_invocation, {}).fetch(:description, '')
       end

@@ -6,6 +6,7 @@
 
 class JobTemplateImporter
   def self.import!(name, text, metadata, force = false)
+    return JobTemplate.new(:name => name)
     skip = skip_locked(name, force)
     return skip if skip
 
