@@ -150,6 +150,7 @@ module ForemanRemoteExecution
       #   ProvisioningTemplate.reflect_on_association :template_inputs # => nil
       require_dependency 'job_template'
       (Template.descendants + [Template]).each { |klass| klass.send(:include, ForemanRemoteExecution::TemplateExtensions) }
+      Template.send(:prepend, ForemanRemoteExecution::TemplateOverrides)
 
       (Taxonomy.descendants + [Taxonomy]).each { |klass| klass.send(:include, ForemanRemoteExecution::TaxonomyExtensions) }
 
@@ -165,6 +166,7 @@ module ForemanRemoteExecution
       Bookmark.send(:include, ForemanRemoteExecution::BookmarkExtensions)
       HostsHelper.send(:prepend, ForemanRemoteExecution::HostsHelperExtensions)
       ProvisioningTemplatesHelper.send(:prepend, ForemanRemoteExecution::JobTemplatesExtensions)
+      TemplateInput.send(:include, ForemanRemoteExecution::TemplateInputExtensions)
 
       SmartProxy.send(:prepend, ForemanRemoteExecution::SmartProxyExtensions)
       Subnet.send(:include, ForemanRemoteExecution::SubnetExtensions)

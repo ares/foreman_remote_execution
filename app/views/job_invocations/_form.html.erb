@@ -1,6 +1,8 @@
+<% javascript 'template_input' %>
 <script type="text/javascript">
   $(function () {
     template_change($('select.job_template_selector'));
+    $('a.advanced_fields_switch').on('click', toggle_advanced_fields);
   });
 </script>
 
