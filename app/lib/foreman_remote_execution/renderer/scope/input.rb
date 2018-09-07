@@ -1,7 +1,7 @@
 module ForemanRemoteExecution
   module Renderer
     module Scope
-      class Input < ::Foreman::Renderer::Scope::Base
+      class Input < ::Foreman::Renderer::Scope::Template
         include Foreman::Renderer::Scope::Macros::HostTemplate
 
         attr_reader :template, :host, :invocation, :input_values, :input_template_instance
